@@ -1,0 +1,47 @@
+syntax = "proto3";
+package task;
+option go_package = "github.com/orainmers/project-protos/proto/task";
+
+// Сущность задача
+message Task {
+  uint32 id      = 1;
+  string title   = 2;
+}
+
+message CreateTaskRequest {
+  string title = 1;
+}
+message CreateTaskResponse {
+  Task task = 1;
+}
+
+service TaskService {
+  rpc CreateTask (CreateTaskRequest) returns (CreateTaskResponse);
+  rpc GetTask    (Task)             returns (Task);
+  // Получить список задач
+  rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
+  // Обновить задачу
+  rpc UpdateTask (UpdateTaskRequest) returns (Task);
+  // Удалить задачу
+  rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskResponse);
+}
+
+// Запрос на получение списка задач
+message ListTasksRequest {}
+// Ответ со списком задач
+message ListTasksResponse {
+  repeated Task tasks = 1;
+}
+// Запрос на обновление задачи
+message UpdateTaskRequest {
+  uint32 id = 1;
+  string title = 2;
+}
+// Запрос на удаление задачи
+message DeleteTaskRequest {
+  uint32 id = 1;
+}
+// Ответ на удаление задачи
+message DeleteTaskResponse {
+  bool success = 1;
+}
